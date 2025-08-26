@@ -82,6 +82,14 @@ class LinkedList
         int get_head();
         int get_tail();
         void reverse();
+        Node* find_middle_node();
+        bool has_list_loop();
+        Node* findt_ith_node_from_end(int index);
+        Node* remove_ith_node_from_end(int index);
+        int binary_to_decimal();
+        Node* partition_list(int value);
+        Node* reverse_between_list(int left, int right);
+
     
     private:
         Node* head;
@@ -290,7 +298,7 @@ void LinkedList::reverse()
     Node* rev = temp->next;
     Node* before = nullptr;
     
-    for(int i = 0 ; i < length-1 ; i++)
+    for(int i = 0 ; i < length ; i++)
     {     
         rev = temp->next;
         temp->next = before;
@@ -328,6 +336,206 @@ inline int LinkedList::get_tail()
     return tail->m_value;
 }
 
+Node* LinkedList::find_middle_node()
+{
+    Node* fast = head;
+    Node* slow = head;
+
+    // while(fast->next != nullptr)
+    // {
+    //     if(fast->next->next != nullptr)
+    //     {
+    //         fast = fast->next->next;
+            
+    //         slow = slow->next;
+
+    //     }
+    //     else{
+    //         fast=fast->next;
+    //         slow=slow->next;
+    //     }
+        
+    // }
+
+    while (fast != NULL && fast->next != NULL) 
+    {
+        slow = slow->next;
+        fast = fast->next->next;
+    }
+
+    return slow;
+}
+
+bool LinkedList::has_list_loop()
+{
+    if(head == NULL || head->next == NULL) return false;
+
+    Node* slow = head;
+    Node* fast = head->next;
+
+    while (fast != NULL && fast->next != NULL) 
+    {
+        slow = slow->next;
+        fast = fast->next->next;
+
+        if(slow == fast)
+        {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+/*
+
+Input: head = [1,2,3,4,5], n = 2
+
+Output: [1,2,3,5]
+*/
+Node* LinkedList::findt_ith_node_from_end(int index)
+{
+    if(head == nullptr || tail == nullptr) return nullptr;
+
+    Node* slow = head;
+    Node* fast = head;
+
+    for(int i = 0; i < index ; i++)
+    {
+        fast = fast->next;
+    }
+
+    while (fast != nullptr) 
+    {
+        slow = slow->next;
+        fast = fast->next;
+
+    }
+
+    return slow;
+}
+
+Node* LinkedList::remove_ith_node_from_end(int index)
+{
+    Node* dummy = new Node(0);
+
+    Node* slow = dummy;
+    Node* fast = dummy;
+
+    for(int i = 0; i < index+1 ; i++)
+    {
+        fast = fast->next;
+    }
+
+    while (fast != nullptr) 
+    {
+        slow = slow->next;
+        fast = fast->next;
+    }
+
+    Node* temp = slow->next;
+    slow->next = slow->next->next;
+    delete temp;
+
+    return dummy;
+}
+
+int LinkedList::binary_to_decimal()
+{
+    int sum = 0;
+    Node* temp = head;
+
+    while(temp != nullptr)
+    {
+        sum = sum << 1;
+        sum |= temp->m_value;
+        temp = temp->next;
+    }
+
+    return sum;
+}
+
+Node* LinkedList::partition_list(int val)
+{
+    Node* smaller_list_head = new Node(-1);
+    Node* greater_list_head = new Node(-1);
+
+    Node* small_current;
+    Node* greater_current;
+
+    Node* current = head;
+
+    small_current = smaller_list_head;
+    greater_current = greater_list_head;
+
+    while(current)
+    {
+        if(current->m_value >= val)
+        {
+            greater_current->next = current;
+            greater_current = greater_current->next;
+        }
+        else
+        {
+            small_current->next = current;
+            small_current = small_current->next;
+        }
+
+        current = current->next;
+    }
+
+    greater_current->next = nullptr;
+    small_current->next = greater_list_head->next;
+
+    return smaller_list_head->next;
+}
+
+Node* LinkedList::reverse_between_list(int m, int n)
+{
+    if(!head || !head->next) return head;
+
+        Node *dummy = new Node(-1);
+        dummy->next = head;
+        
+        Node *prev = dummy, *cur = head;
+        
+        //move cur "m-1" steps forward, so it become the mth node
+        int i = 1;
+        for(i = 1; i < m; ++i)
+        {
+            prev = prev->next;
+            cur = cur->next;
+        }
+
+        std::cout << "prev: " << prev->m_value << " and cur: " << cur->m_value << "\n";
+        
+        //rdummy: the previous node of the head of reversed list
+        Node *rdummy = prev;
+        //rtail: the tail of reversed list
+        Node *rtail = cur;
+        
+        //do n-m+1 times, moving "cur" from mth node to (n+1)th node
+        //m -> (m-1), (m+1) -> m, ..., n->(n-1)
+        for(; i <= n; ++i)
+        {
+            Node* next = cur->next;
+            std::cout << "next: " << next->m_value << "\n";
+            std::cout << "cur->next: " << cur->next->m_value << "\n";
+            cur->next = prev;
+            prev = cur;
+            cur = next;
+            std::cout << "------------------------------- " << "\n";
+        }
+        
+        //prev is the tail of reversed list
+        rdummy->next = prev;
+        //cur is the next node of the tail of reversed list
+        rtail->next = cur;
+        
+        return dummy->next;
+
+}
+
 int ll_main()
 {
     
@@ -341,34 +549,87 @@ int ll_main()
     // }
     // // ll_instance is deleted automatically after going out of scope
 
-    LinkedList* ll = new LinkedList(67);
-    ll->append(41);
-    ll->append(6);
-    ll->append(75);
-    ll->prepend(16);
+    // LinkedList* ll = new LinkedList(67);
+    // ll->append(41);
+    // ll->append(6);
+    // ll->append(75);
+    // ll->prepend(16);
+    // ll->print_list();
+    // ll->delete_last();
+    // ll->delete_first();
+    // ll->delete_first();
+    // ll->delete_first();
+    // ll->delete_first();
+    // ll->print_list();
+    // ll->append(41);
+    // ll->append(6);
+    // ll->append(75);
+    // ll->print_list();
+    // std::cout << "Value at index 2 is: " << ll->get(2)->m_value << "\n";
+    // auto result = ll->set(2, 59);
+    // ll->print_list();
+    // std::cout << "New Element at index 2 is: " << ll->get(2)->m_value << "\n";
+    // ll->insert(0,0);
+    // ll->print_list();
+    // ll->insert(2,82);
+    // ll->print_list();
+    // ll->delete_node(0);
+    // ll->print_list();
+    // ll->reverse();
+    // ll->print_list();
+    // std::cout << "Middle Node: " << ll->find_middle_node()->m_value << "\n";
+    // ll->append(99);
+    // ll->append(99);
+    // ll->print_list();
+    // std::cout << "Middle Node: " << ll->find_middle_node()->m_value << "\n";
+    // std::cout << "i th (3) Node From End: " << ll->findt_ith_node_from_end(3)->m_value << "\n";
+
+    // auto new_list = ll->remove_ith_node_from_end(3);
+    // std::cout << "List: " << new_list->m_value << new_list->next->m_value << new_list->next->next->m_value << new_list->next->next->next->m_value << "\n"; 
+
+    // LinkedList* ll = new LinkedList(1);
+    // ll->append(0);
+    // ll->append(0);
+    // ll->append(0);
+
+    // std::cout << "Decimal correpsond of binary linked list: " << ll->binary_to_decimal() << "\n";
+
+    // LinkedList* ll = new LinkedList(1);
+    // ll->append(3);
+    // ll->append(9);
+    // ll->append(5);
+    // ll->append(4);
+    // ll->append(7);
+    // ll->append(8);
+    // ll->append(9);
+
+    // auto new_list = ll->partition_list(5);
+    // std::cout << "List: " << "\n"; 
+    
+    // while(new_list)
+    // {
+    //     std::cout << new_list->m_value << "\t"; 
+    //     new_list = new_list->next;
+    // }
+    
+    LinkedList* ll = new LinkedList(1);
+    ll->append(2);
+    ll->append(3);
+    ll->append(4);
+    ll->append(5);
     ll->print_list();
-    ll->delete_last();
-    ll->delete_first();
-    ll->delete_first();
-    ll->delete_first();
-    ll->delete_first();
-    ll->print_list();
-    ll->append(41);
-    ll->append(6);
-    ll->append(75);
-    ll->print_list();
-    std::cout << "Value at index 2 is: " << ll->get(2)->m_value << "\n";
-    auto result = ll->set(2, 59);
-    ll->print_list();
-    std::cout << "New Element at index 2 is: " << ll->get(2)->m_value << "\n";
-    ll->insert(0,0);
-    ll->print_list();
-    ll->insert(2,82);
-    ll->print_list();
-    ll->delete_node(0);
-    ll->print_list();
-    ll->reverse();
-    ll->print_list();
+    std::cout << std::endl;
+
+
+    auto new_list = ll->reverse_between_list(2,4);
+    std::cout << "List: " << "\n"; 
+    
+    while(new_list)
+    {
+        std::cout << new_list->m_value << "\t"; 
+        new_list = new_list->next;
+    }
+    std::cout << std::endl;
 
     return 0;
 }
