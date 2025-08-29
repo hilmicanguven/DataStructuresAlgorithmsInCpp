@@ -89,6 +89,7 @@ class LinkedList
         int binary_to_decimal();
         Node* partition_list(int value);
         Node* reverse_between_list(int left, int right);
+        Node* swap_pairs();
 
     
     private:
@@ -536,6 +537,38 @@ Node* LinkedList::reverse_between_list(int m, int n)
 
 }
 
+Node* swap(Node* node){
+    // length 0 or 1
+    if(!node || !node->next)
+        return node;
+    
+    Node* next = node->next;
+    node->next = next->next;
+    next->next = node;
+    
+    return next;
+}
+
+Node* LinkedList::swap_pairs()
+{
+    Node* dummy = new Node(0);
+        
+    dummy->next = head;
+    
+    Node* cur = dummy;
+    
+    while(cur)
+    {
+        Node* next = swap(cur->next);
+        cur->next = next;
+        
+        cur = cur->next;
+        if(cur)cur = cur->next;
+    }
+    
+    return dummy->next;
+}
+
 int ll_main()
 {
     
@@ -631,6 +664,8 @@ int ll_main()
     }
     std::cout << std::endl;
     
-
+    ll->print_list();
+    ll->swap_pairs();
+    ll->print_list();
     return 0;
 }
