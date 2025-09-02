@@ -57,6 +57,7 @@ class DoublyLinkedList {
         /** @brief divide list into to two, where first half is values smaller than "x" and second half is greater than "x" */
         void partition_list(int x);
         void reverse_between(int startIndex, int endIndex);
+        void swap_pairs();
         
 };
 
@@ -509,6 +510,48 @@ void DoublyLinkedList::reverse_between(int left, int right)
 
 
     return;
+}
+
+void DoublyLinkedList::swap_pairs()
+{
+    if(0 == length || 1 == length) return;
+
+    Node* dummy = new Node(0);
+
+    dummy->next = head;
+    if (head) head->prev = dummy;
+
+    Node* current = dummy;
+
+    while (current->next && current->next->next)
+    {
+        Node* first = current->next;
+        Node* second = current->next->next;
+        Node* next_swapped = second->next;
+
+        // Swap the pairs
+        current->next = second;
+        second->prev = current;
+
+        second->next = first;
+        first->prev = second;
+
+        first->next = next_swapped;
+        if (next_swapped)
+        {
+            next_swapped->prev = first;
+        }
+
+        // Move current forward
+        current = first;
+    }
+
+    // Update head
+    head = dummy->next;
+    if (head) head->prev = nullptr;
+
+    delete dummy;
+
 }
 
 
