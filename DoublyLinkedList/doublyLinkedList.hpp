@@ -277,7 +277,7 @@ void DoublyLinkedList::delete_node(int index)
     length--;
 }
 
-int main()
+int dll_main()
 {
     // std::cout << "hi lmi world!" << "\n";
 

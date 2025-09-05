@@ -234,17 +234,20 @@ class VectorStack {
         }    
 };
 
-Stack* stack = new Stack(16);
+Stack* my_stack = new Stack(16);
 
-int main()
+#include "exercises.hpp"
+
+
+int stack_queue_main()
 {
 
-    // stack->get_top();
-    // stack->push(41);
-    // stack->pop();
-    // stack->pop();
-    // std::cout << "invalid value: " << stack->pop() << "\n";
-    // stack->print_stack();
+    // my_stack->get_top();
+    // my_stack->push(41);
+    // my_stack->pop();
+    // my_stack->pop();
+    // std::cout << "invalid value: " << my_stack->pop() << "\n";
+    // my_stack->print_stack();
 
     // Queue* queue = new Queue(100);
     // queue->enqueue(101);
@@ -256,8 +259,9 @@ int main()
 
     std::string word = "hilmi-guven";
     
+    auto res = reverse_string(word);
     std::cout << "Original: " << word << "\n";
-    // std::cout << "Reversed: " << reverse_string(word) << "\n";
+    std::cout << "Reversed: " << res << "\n";
 
 
     
