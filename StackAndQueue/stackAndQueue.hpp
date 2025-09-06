@@ -257,12 +257,24 @@ int stack_queue_main()
     // queue->dequeue();
     // queue->print_queue();
 
-    std::string word = "hilmi-guven";
+    // std::string word = "hilmi-guven";
     
-    auto res = reverse_string(word);
-    std::cout << "Original: " << word << "\n";
-    std::cout << "Reversed: " << res << "\n";
+    // auto res = reverse_string(word);
+    // std::cout << "Original: " << word << "\n";
+    // std::cout << "Reversed: " << res << "\n";
 
+    // std::string paranthesis = "((()))))";
+    // std::cout << "is balanced: " << is_balanced_parentheses(paranthesis) << boolalpha << "\n";
+
+    stack<int> int_stack;
+    int_stack.push(2);
+    int_stack.push(3);
+    int_stack.push(1);
+    int_stack.push(4);
+
+    sortStack(int_stack);
+    
+    printStack(int_stack);
 
     
     return 0;
