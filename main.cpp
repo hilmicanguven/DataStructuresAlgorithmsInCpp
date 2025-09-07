@@ -10,7 +10,8 @@
 
 // #include "LinkedList/linkedList.hpp"
 // #include "DoublyLinkedList/doublyLinkedList.hpp"
-#include "StackAndQueue/stackAndQueue.hpp"
+// #include "StackAndQueue/stackAndQueue.hpp"
+#include "Tree/tree.hpp"
 
 using namespace std;
 
@@ -23,8 +24,9 @@ int main()
 
     // dll_main();
 
-    stack_queue_main();
+    // stack_queue_main();
 
+    tree_main();
 
 
     return 0;
