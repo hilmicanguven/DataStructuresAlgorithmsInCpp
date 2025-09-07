@@ -267,7 +267,7 @@ bool LinkedList::insert(int index, int v)
 
 void LinkedList::delete_node(int index)
 {
-    if(index < 0 || index > length) { return;}
+    if(index < 0 || index >= length) { return;}
 
     if(index == 0)
     {
@@ -403,6 +403,11 @@ Node* LinkedList::findt_ith_node_from_end(int index)
 
     for(int i = 0; i < index ; i++)
     {
+        if (fast == nullptr)
+        {
+            return nullptr;
+        }
+
         fast = fast->next;
     }
 
@@ -534,6 +539,69 @@ Node* LinkedList::reverse_between_list(int m, int n)
         rtail->next = cur;
         
         return dummy->next;
+
+        /*
+            // 1. Initial Check:
+    // If the list is empty, there's nothing to reverse.
+    // So, exit the function without doing anything.
+    if (head == nullptr) return;
+ 
+    // 2. Dummy Node Creation:
+    // We initiate a new 'dummy' node with value 0.
+    // This is a trick to simplify the edge cases.
+    Node* dummy = new Node(0);
+ 
+    // Connect our actual list right after the dummy node.
+    // So, the dummy node temporarily stands before the head.
+    dummy->next = head;
+ 
+    // 3. Positioning 'prev':
+    // Start with 'prev' pointing to the dummy node.
+    Node* prev = dummy;
+ 
+    // Move 'prev' up to the node just before the starting
+    // point of the section we want to reverse.
+    for (int i = 0; i < m; i++) {
+        prev = prev->next;
+    }
+ 
+    // 4. Setting up 'current':
+    // 'current' is set right after 'prev'.
+    // It marks the start of the section to be reversed.
+    Node* current = prev->next;
+ 
+    // 5. Main Reversal Logic:
+    // We now enter our core reversal loop.
+    for (int i = 0; i < n - m; i++) {
+        // 'temp' points to the node that's next in line
+        // for our reversal process.
+        Node* temp = current->next;
+ 
+        // Detach 'temp' from the current sequence by
+        // making 'current' skip over 'temp'.
+        current->next = temp->next;
+ 
+        // To move 'temp' to the start of our reversed section,
+        // we first let 'temp' point to whatever node 'prev' is pointing to.
+        temp->next = prev->next;
+ 
+        // Finally, we adjust 'prev' to point to 'temp', thereby
+        // moving 'temp' to the front of the reversed section.
+        prev->next = temp;
+    }
+ 
+    // 6. Updating Head:
+    // If our reversed section included the original head of the list,
+    // our list's head would have changed. 
+    // So, we need to update the head of our list.
+    head = dummy->next;
+ 
+    // 7. Cleanup:
+    // The dummy node has served its purpose.
+    // We free up its memory to avoid memory leaks.
+    delete dummy;
+        
+        */
 
 }
 
