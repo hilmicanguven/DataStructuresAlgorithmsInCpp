@@ -11,7 +11,8 @@
 // #include "LinkedList/linkedList.hpp"
 // #include "DoublyLinkedList/doublyLinkedList.hpp"
 // #include "StackAndQueue/stackAndQueue.hpp"
-#include "Tree/tree.hpp"
+// #include "Tree/tree.hpp"
+#include "HashTable/hastTable.hpp"
 
 using namespace std;
 
@@ -26,8 +27,9 @@ int main()
 
     // stack_queue_main();
 
-    tree_main();
+    // tree_main();
 
+    hash_main();
 
     return 0;
 }
