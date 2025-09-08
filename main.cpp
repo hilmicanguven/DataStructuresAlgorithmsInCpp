@@ -12,7 +12,8 @@
 // #include "DoublyLinkedList/doublyLinkedList.hpp"
 // #include "StackAndQueue/stackAndQueue.hpp"
 // #include "Tree/tree.hpp"
-#include "HashTable/hastTable.hpp"
+// #include "HashTable/hastTable.hpp"
+#include "Graph/graph.hpp"
 
 using namespace std;
 
@@ -29,7 +30,9 @@ int main()
 
     // tree_main();
 
-    hash_main();
+    // hash_main();
+
+    graph_main();
 
     return 0;
 }
