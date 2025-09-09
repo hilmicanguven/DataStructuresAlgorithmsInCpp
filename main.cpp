@@ -13,7 +13,8 @@
 // #include "StackAndQueue/stackAndQueue.hpp"
 // #include "Tree/tree.hpp"
 // #include "HashTable/hastTable.hpp"
-#include "Graph/graph.hpp"
+// #include "Graph/graph.hpp"
+#include "Heap/heap.hpp"
 
 using namespace std;
 
@@ -32,7 +33,9 @@ int main()
 
     // hash_main();
 
-    graph_main();
+    // graph_main();
 
+    heap_main();
+    
     return 0;
 }
