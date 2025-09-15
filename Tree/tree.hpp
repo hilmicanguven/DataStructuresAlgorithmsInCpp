@@ -45,6 +45,33 @@ Complexity of BST : Bir node'a erişmek için
                     Worst case scenario'da ise aslında sürekli sağa gittiğimizi düşünelim,
                     aslında Linked Listten bir farkı olmamış olur ve O(n) diyebiliriz.
 
+
+Recursive BST
+    İlk yazdığımız BST fonksiyonlarında iterative yöntem ile implemente ettik.
+    yani "loop" kullanarak implemente etmiştik.
+    burada ise recursive function call ile yapacağız.
+
+    rContains:
+        contains function'ı implemente ederek başlayacağız.
+        recursive olarak implemente edeceğimiz fonksiyonda current_node değişkenine sahip olmamız gerekiyor
+        çünkü bu node'a göre nerede recursive çağrıyı sonlandıracağımıza karar vereceğiz.
+        ancak kullanıcıya bunu belirtmeden yapmak için function overloading yaparak yalnızca value alacak şekilde bir fonk oluşturacağız.
+        contains fonksiyonunun algoritması oldukça basit,
+            current node null değilse, mevcut node'a eşitse true değilse false döneriz.
+
+    rInsert:
+        insert'ü de yine recursive olarak yazabiliriz.
+        insert etmek istediğimiz pozisyonu bulmak gerekir.
+        bunun için aynı fonksiyonu value comparison yaparak left veya right child ile tekrar çağırırız
+
+    rDelete:
+        öncelikle tüm ağacı traverse etmeliyiz.
+        sonrasında aradığımız node'u bulunca sileriz.
+        leaf node silmek en basit senaryodur.
+        ancak leaf olmayan(child'i bulunan) node'u silince ağacı tekrar düzenlemek gerekir
+        sileceğimiz nodu'un altındaki sub-tree'deki en küçük değeri bulup sildiğimiz node'un değerine bu node'u atar ve bu node'u(lowest in the subtree) sileriz.
+
+
 */
 
 #include <iostream>
@@ -153,6 +180,118 @@ class BinarySearchTree
             }
 
             return false;
+        }
+
+        bool rContains(int value)
+        {
+            return rContains(root, value);
+        }
+        
+        /** @brief recursive function to check occurence of a value in the BST */
+        bool rContains(Node* current_node, int val)
+        {
+            if(current_node == nullptr ) return false;
+
+            if(current_node->value == val) return true;
+            
+            if(current_node->value > val)
+            {
+                return rContains(current_node->left, val);
+            }
+            else
+            {
+                return rContains(current_node->right, val);
+            }
+        }
+
+        /** @brief recursive insert function */
+        Node* rInsert(Node* cn, int val)
+        {
+            if(nullptr == cn) return new Node(val);
+            
+            if(cn->value > val)
+            {
+                cn->left = rInsert(cn->left, val);
+            }
+            else if(cn->value < val)
+            {
+                cn->right = rInsert(cn->right, val);
+            }
+
+            // no duplicates allowed, return existing one to its parent.
+            return cn;
+        }
+
+        void rInsert(int val)
+        {
+            if(root == nullptr) root = new Node(val);
+
+            rInsert(root, val);
+        }
+
+        Node* deleteNode(Node* current_node, int value )
+        {
+            if( current_node == nullptr) return nullptr;
+
+            if(value < current_node->value)
+            {
+                current_node->left = deleteNode(current_node->left, value);
+            }
+            else if(value > current_node->value)
+            {
+                current_node->right = deleteNode(current_node->right, value);
+            }
+            else
+            {
+                // found the node that will be deleted
+                // must handle 4 different cases... 1-leaf node 2-only have right child 3- only have left child
+                // and relatively harder, 4- it has both left and right child
+
+                if(current_node->left == nullptr && current_node->right == nullptr )
+                {
+                    delete(current_node);
+                    return nullptr; // update parent node's child
+                }
+                else if(current_node->left == nullptr)
+                {
+                    Node* temp = current_node->right;
+                    delete(current_node);
+                    return temp;
+                }
+                else if(current_node->right == nullptr)
+                {
+                    // open on the right, has child on left
+                    Node* temp = current_node->left;
+                    delete(current_node);
+                    return temp;
+                }
+                else
+                {
+                    // has node on eacn side
+                    int subTreeMin = minValue(current_node->right);
+                    current_node->value = subTreeMin;
+                    current_node->right = deleteNode(current_node->right, subTreeMin);
+                }
+
+            }
+
+            return current_node;
+        }
+
+        void deleteNode(int value)
+        {
+            root = deleteNode(root, value);
+        }
+
+        /** @brief the function find minumum value under the @ref current_node */
+        int minValue(Node* current_node)
+        {
+            while(current_node != nullptr)
+            {
+                current_node = current_node->left;
+            }
+
+            return current_node->value;
         }
     };
 

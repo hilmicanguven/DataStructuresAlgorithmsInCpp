@@ -14,7 +14,8 @@
 // #include "Tree/tree.hpp"
 // #include "HashTable/hastTable.hpp"
 // #include "Graph/graph.hpp"
-#include "Heap/heap.hpp"
+// #include "Heap/heap.hpp"
+#include "Recursion/recursion.hpp"
 
 using namespace std;
 
@@ -35,7 +36,9 @@ int main()
 
     // graph_main();
 
-    heap_main();
+    // heap_main();
+
+    recursion_main();
     
     return 0;
 }
