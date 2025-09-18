@@ -91,6 +91,40 @@ class LinkedList
         Node* reverse_between_list(int left, int right);
         Node* swap_pairs();
 
+        void bubbleSort();
+        void selectionSort()
+		{
+		    if(length < 2) return;
+		    
+		    Node* current = head;
+		    
+		    while(current->next != nullptr)
+		    {
+		        Node* smallest = current;
+		        
+		        Node* innerCurrent = current->next;
+		        
+		        while(innerCurrent != nullptr)
+		        {
+		            if (innerCurrent->m_value < smallest->m_value) 
+		            {
+                        smallest = innerCurrent;
+                    }
+                    innerCurrent = innerCurrent->next;
+		        }
+		        
+		         if (smallest != current) 
+		         {
+                    int temp = current->m_value;
+                    current->m_value = smallest->m_value;
+                    smallest->m_value = temp;
+                }
+		        
+		        current = current->next;
+		    }
+		    
+		}
+
     
     private:
         Node* head;
@@ -736,4 +770,41 @@ int ll_main()
     ll->swap_pairs();
     ll->print_list();
     return 0;
+}
+
+void LinkedList::bubbleSort() {
+    // If the list has fewer than 2 elements, it's already sorted.
+    // So, we exit the function early.
+    if (length < 2) return;
+ 
+    // Initialize a pointer called "sortedUntil".
+    // This pointer marks the point until which the list is sorted.
+    Node* sortedUntil = nullptr;
+ 
+    // Continue sorting until "sortedUntil" reaches the second node in the list.
+    while (sortedUntil != head->next) {
+        // Initialize "current" at the head of the list. 
+        // "current" will be used to traverse the list.
+        Node* current = head;
+ 
+        // Traverse the list until "current->next" becomes "sortedUntil".
+        // This means we only check the unsorted part of the list.
+        while (current->next != sortedUntil) {
+            // "nextNode" points to the node immediately after "current".
+            Node* nextNode = current->next;
+ 
+            // Compare the value of "current" and "nextNode".
+            // If they're out of order, swap them.
+            if (current->m_value > nextNode->m_value) {
+                int temp = current->m_value;
+                current->m_value = nextNode->m_value;
+                nextNode->m_value = temp;
+            }
+            // Move "current" to the next node.
+            current = current->next;
+        }
+        // Update "sortedUntil" to point to the last node we've just checked.
+        // This way, "sortedUntil" moves closer to the head of the list.
+        sortedUntil = current;
+    }
 }
