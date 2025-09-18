@@ -11,11 +11,11 @@
 // #include "LinkedList/linkedList.hpp"
 // #include "DoublyLinkedList/doublyLinkedList.hpp"
 // #include "StackAndQueue/stackAndQueue.hpp"
-// #include "Tree/tree.hpp"
+#include "Tree/tree.hpp"
 // #include "HashTable/hastTable.hpp"
 // #include "Graph/graph.hpp"
 // #include "Heap/heap.hpp"
-#include "Recursion/recursion.hpp"
+// #include "Recursion/recursion.hpp"
 
 using namespace std;
 
@@ -30,7 +30,7 @@ int main()
 
     // stack_queue_main();
 
-    // tree_main();
+    tree_main();
 
     // hash_main();
 
@@ -38,7 +38,7 @@ int main()
 
     // heap_main();
 
-    recursion_main();
+    // recursion_main();
     
     return 0;
 }

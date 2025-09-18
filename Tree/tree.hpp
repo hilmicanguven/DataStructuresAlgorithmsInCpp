@@ -69,12 +69,50 @@ Recursive BST
         sonrasında aradığımız node'u bulunca sileriz.
         leaf node silmek en basit senaryodur.
         ancak leaf olmayan(child'i bulunan) node'u silince ağacı tekrar düzenlemek gerekir
-        sileceğimiz nodu'un altındaki sub-tree'deki en küçük değeri bulup sildiğimiz node'un değerine bu node'u atar ve bu node'u(lowest in the subtree) sileriz.
+            sileceğimiz nodu'un altındaki sub-tree'deki en küçük değeri bulup 
+            sildiğimiz node'un değerine bu node'u atar ve 
+            bu node'u(lowest in the subtree) sileriz.
 
 
+Tree Traversal
+
+    Binary Search Tree altındaki tüm node'ları tek tek dolaşma işlemidir.
+    ancak bunu yapmak üzere 3 farklı yol seçebiliriz
+
+           47
+    21           76
+18      27    52     82
+
+    - Breadth First Search
+        row-by-row ilerleriz. root'dan başlayarak aşağı doğru o an bulunduğumuz seviyedeki tüm node'ları gezip sonrasında bir alt row'a geçeriz.
+        bunu yaparken Queue kullanabiliriz.
+
+        output: 47 21 76 18 27 52 82
+
+    - Depth First Search
+
+        - preOrder  : 
+            root'dan başlayarak gidebildiğimiz kadar left'e gitmeye çalışırız. root'dan başlar her iterasyonda node'ları gezip devam ederiz.
+            yani print ettireceksek önce root'un değeri, sonrasında varsa sol child'in değerini bastırırız gibi.
+            left olmadığı durumda gidebiliyorsak right'ı gezer varsa tekrar left'e gitmeye çalışırız.
+
+            output: 47- 21 - 18 - 27 - 76 - 52 - 82
+
+        - postOrder :
+            preOrder'dan farklı olarak, root'dan başlarız ancak print etmeden devam ederiz. bir önceki benzer ilerleriz ancak gidebildiğimiz
+            kadar derine gidip o değeri bastırırız.
+
+            output: 18 27 21 52 82 76 47
+        
+        - inOrder   :
+            root'dan başlar gidebildiğimiz kadar left'e gideriz. geldiğimiz noktada left-rigth-varsa left/right devam eder, yoksa bir üst seviyeye geçeriz
+            aslında bu şekilde numeric olarak tree'yi sıralamış oluruz küçükten büyüğe 
+
+            output: 18 21 27 47 52 76 87
 */
 
 #include <iostream>
+#include <queue>
 
 using namespace std;
 
@@ -293,6 +331,102 @@ class BinarySearchTree
 
             return current_node->value;
         }
+
+        /** @brief Tree traversal function for "breadth first search". it traversas tree row-by-row
+         * by starting root and goes down. in each iteration, it prints all the nodes found at the same depth
+         */
+        void BFS() 
+        {
+            queue<Node*> myQueue;
+            myQueue.push(root);
+
+            while (myQueue.size() > 0)
+            {
+                Node* current_node = myQueue.front();
+                myQueue.pop();
+                std::cout << current_node->value << " ";
+
+                if(current_node->left != nullptr)
+                {
+                    myQueue.push(current_node->left);
+                }
+
+                if(current_node->right != nullptr)
+                {
+                    myQueue.push(current_node->right);
+                }
+            }
+        }
+
+        /** @brief Tree traversal function for "depth first search" with prerOder.
+         */
+        void DFSPreOrder(Node* current_node) 
+        {
+            std::cout << current_node->value << " ";
+
+            if(current_node->left != nullptr)
+            {
+                DFSPreOrder(current_node->left);
+            }
+
+            if(current_node->right != nullptr)
+            {
+                DFSPreOrder(current_node->right);
+            }
+        }
+
+        void DFSPreOrder()
+        {
+            DFSPreOrder(root);
+        } 
+
+        /** @brief Tree traversal function for "depth first search" with postOrOder.
+         */
+        void DFSPostOrder(Node* current_node) 
+        {
+
+            if(current_node->left != nullptr)
+            {
+                DFSPostOrder(current_node->left);
+            }
+
+            if(current_node->right != nullptr)
+            {
+                DFSPostOrder(current_node->right);
+            }
+
+            std::cout << current_node->value << " ";
+
+        }
+
+        void DFSPostOrder()
+        {
+            DFSPostOrder(root);
+        } 
+
+        /** @brief Tree traversal function for "depth first search" with InOrder.
+        */
+        void DFSInOrder(Node* current_node) 
+        {
+
+            if(current_node->left != nullptr)
+            {
+                DFSInOrder(current_node->left);
+            }
+
+            std::cout << current_node->value << " ";
+
+            if(current_node->right != nullptr)
+            {
+                DFSInOrder(current_node->right);
+            }
+        }
+
+        void DFSInOrder()
+        {
+            DFSInOrder(root);
+        }
+        
     };
 
 void tree_main()
@@ -302,12 +436,18 @@ void tree_main()
     bst->insert(47);
     bst->insert(21);
     bst->insert(76);
+    bst->insert(18);
+    bst->insert(27);
     bst->insert(52);
     bst->insert(82);
-    bst->insert(27);
 
     cout << "Val: " << bst->root->left->right->value << "\n";
     cout << boolalpha << "is contains: " << bst->contain(76) << "\n";
     cout << "is contains: " << bst->contain(9999) << "\n";
+
+    bst->BFS(); cout << "\n";
+    bst->DFSPreOrder(); cout << "\n";
+    bst->DFSPostOrder(); cout << "\n";
+    bst->DFSInOrder(); cout << "\n";
     return;
 }
