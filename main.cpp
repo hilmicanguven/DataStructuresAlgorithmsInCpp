@@ -16,7 +16,8 @@
 // #include "Graph/graph.hpp"
 // #include "Heap/heap.hpp"
 // #include "Recursion/recursion.hpp"
-#include "Sort/sort.hpp"
+// #include "Sort/sort.hpp"
+#include "MergeSort/mergeSort.hpp"
 
 using namespace std;
 
@@ -41,7 +42,9 @@ int main()
 
     // recursion_main();
 
-    sort_main();
+    // sort_main();
+
+    ms_sort_main();
     
     return 0;
 }
