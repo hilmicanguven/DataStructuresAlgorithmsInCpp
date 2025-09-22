@@ -124,7 +124,110 @@ class LinkedList
 		    }
 		    
 		}
+        void insertionSort()
+		{
+		    if(length < 2) return;
+		    
+		    Node* sorted_head = head;
+		    Node* unsorted_head = head->next;
+		    
+		    sorted_head->next = nullptr;
+		    
+		    
+		    while(unsorted_head != nullptr)
+		    {
+	            Node* current = unsorted_head;
+		        unsorted_head = unsorted_head->next;
+		        
+		        if(current->m_value < sorted_head->m_value)
+		        {
+		            current->next = sorted_head;
+		            sorted_head = current;
+		        }
+		        else
+		        {
+		            Node* temp = sorted_head;
+    		        while(temp->next != nullptr && current->m_value > temp->next->m_value)
+    		        {
+    		            temp = temp->next;
+    		        }
+    		        current->next = temp->next;
+    		        temp->next = current;
+		        }
+		        
+		    }
+		    
+		    head = sorted_head;
+            Node* temp = head;
+            while (temp->next != nullptr) {
+                temp = temp->next;
+            }
+            tail = temp;
+		}
 
+        void merge(LinkedList& otherList) 
+        {
+            // Initialize a pointer to the head node of the
+            // other linked list we are going to merge.
+            Node* otherHead = otherList.head;
+        
+            // Create a 'dummy' node to serve as a starting point.
+            // This will simplify handling the head of the new list.
+            Node* dummy = new Node(0);
+        
+            // 'current' will point to the last node in our new,
+            // merged list as we build it up.
+            Node* current = dummy;
+        
+            // The loop will run as long as neither of the linked
+            // lists is empty.
+            while (head != nullptr && otherHead != nullptr) {
+        
+                // Compare the values at the heads of the two lists.
+                // We will take the node with the smaller value.
+                if (head->m_value < otherHead->m_value) {
+                    // The current node from our list is smaller.
+                    current->next = head; // Add it to the merged list.
+                    head = head->next;    // Move our list's head.
+                } else {
+                    // The node from the other list is smaller.
+                    current->next = otherHead; // Add it to merged list.
+                    otherHead = otherHead->next; // Move other head.
+                }
+                // Move 'current' to the last node in our new list.
+                current = current->next;
+            }
+        
+            // At this point, one of the lists is empty. If there
+            // are any elements left in the other list, we append
+            // them to the end of the merged list.
+            if (head != nullptr) {
+                current->next = head;
+                while (current->next != nullptr) {
+                    current = current->next; // Move to list's end.
+                }
+            } else {
+                current->next = otherHead;
+                while (current->next != nullptr) {
+                    current = current->next; // Move to list's end.
+                }
+            }
+        
+            // Final housekeeping steps. Point our list's head to the
+            // first real element, update the tail, and delete dummy.
+            tail = current;
+            head = dummy->next;
+            delete dummy;
+        
+            // Update the length of our list by adding the length
+            // of the other list.
+            length += otherList.length;
+        
+            // Clear the other list as it's now merged into ours.
+            otherList.head = nullptr;
+            otherList.tail = nullptr;
+            otherList.length = 0;
+    }
     
     private:
         Node* head;
