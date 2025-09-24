@@ -17,7 +17,9 @@
 // #include "Heap/heap.hpp"
 // #include "Recursion/recursion.hpp"
 // #include "Sort/sort.hpp"
-#include "MergeSort/mergeSort.hpp"
+// #include "MergeSort/mergeSort.hpp"
+#include "Vector/vectorExercises.hpp"
+
 
 using namespace std;
 
@@ -44,7 +46,9 @@ int main()
 
     // sort_main();
 
-    ms_sort_main();
+    // ms_sort_main();
+
+    vector_exercises_main();
     
     return 0;
 }
